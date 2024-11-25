@@ -18,6 +18,18 @@ public class GrupoService {
         return grupoRepository.findAll();
     }
 
+    public List<Grupos> getGruposByTurno(String turno){
+        return grupoRepository.obtenerPorTurno(turno);
+    }
+
+    public List<Grupos> getGruposBySemestre(String semestre){
+        return grupoRepository.obtenerPorSemestre(semestre);
+    }
+
+    public List<Grupos> getGruposByTurnoYSemestre(String semestreId, String turno){
+        return grupoRepository.obtenerPorTurnoYSemestre(semestreId,turno);
+    }
+
     public Optional<Grupos> getGrupoById(String id){
         return grupoRepository.findById(id);
     }

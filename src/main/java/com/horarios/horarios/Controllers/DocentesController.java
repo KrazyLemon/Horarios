@@ -3,6 +3,7 @@ package com.horarios.horarios.Controllers;
 import com.horarios.horarios.Entities.Docentes;
 import com.horarios.horarios.Services.DocenteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
@@ -17,15 +18,20 @@ public class DocentesController {
     @Autowired
     private DocenteService docentesService;
 
-    @GetMapping
-    public List<Docentes> getAll(){
-        return docentesService.getDocentes();
+
+    @GetMapping // Ruta: /api/v1/docentes?page=1&size=10
+    public Page<Docentes> getAllPaginated(
+            @RequestParam(value = "page",defaultValue ="0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size){
+        return docentesService.getDocentesPaginated(page, size);
     }
 
-    @GetMapping("/{docenteId}")
+    @GetMapping("/{docenteId}") // Ruta: api/v1/docentes/D0001
     public Optional<Docentes> getById(@PathVariable("docenteId") String id){
         return docentesService.getDocenteById(id);
     }
+
+
 
     @PostMapping
     public void saveUpdate(@RequestBody Docentes docente){
