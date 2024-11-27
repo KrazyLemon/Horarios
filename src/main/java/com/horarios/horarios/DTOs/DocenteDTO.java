@@ -1,39 +1,17 @@
-package com.horarios.horarios.Entities;
-
-import jakarta.persistence.*;
+package com.horarios.horarios.DTOs;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Optional;
 
-@Entity
-@Table(name = "docentes")
-public class Docentes {
-    @Id
-    @Column(name = "docente_id", length = 6)
+public class DocenteDTO {
     private String docenteId;
-
-    @Column(name = "nombre",nullable = false)
     private String nombre;
-
-    @Column(name = "apellidos",nullable = false)
     private String apellidos;
-
-    @Column(name = "antiguedad", nullable = false)
     private LocalDate antiguedad;
-
-    @Column(name = "entrada", nullable = false)
     private LocalTime entrada;
-
-    @Column(name = "salida", nullable = false)
     private LocalTime salida;
-
-    @Column(name = "horas")
     private Integer horas;
-
-    @ManyToOne
-    @JoinColumn(name = "bandera_id", nullable = false)
-    private Banderas bandera;
+    private String banderaId;
 
     public String getDocenteId() {
         return docenteId;
@@ -91,11 +69,11 @@ public class Docentes {
         this.horas = horas;
     }
 
-    public Banderas getBandera() {
-        return bandera;
+    public String getBanderaId() {
+        return banderaId;
     }
 
-    public void setBandera(Banderas bandera) {
-        this.bandera = bandera;
+    public void setBanderaId(String banderaId) {
+        this.banderaId = banderaId;
     }
 }

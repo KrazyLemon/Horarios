@@ -1,6 +1,8 @@
 package com.horarios.horarios.Services;
 
+import com.horarios.horarios.Entities.Banderas;
 import com.horarios.horarios.Entities.Docentes;
+import com.horarios.horarios.Repositories.BanderaRepository;
 import com.horarios.horarios.Repositories.DocenteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,6 +18,8 @@ public class DocenteService {
 
     @Autowired
     private DocenteRepository docenteRepository;
+    @Autowired
+    private BanderaRepository banderaRepository;
 
     public List<Docentes> getDocentes(){
         return docenteRepository.findAll();
@@ -35,6 +39,7 @@ public class DocenteService {
     }
 
     public void saveOrUpdateDocente(Docentes docente){
+
         docenteRepository.save(docente);
     }
 

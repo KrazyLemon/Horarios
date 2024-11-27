@@ -1,6 +1,11 @@
 package com.horarios.horarios.Controllers;
 
+import com.horarios.horarios.DTOs.AsignacionDTO;
 import com.horarios.horarios.Entities.Asignaciones;
+import com.horarios.horarios.Entities.Docentes;
+import com.horarios.horarios.Entities.Materias;
+import com.horarios.horarios.Repositories.DocenteRepository;
+import com.horarios.horarios.Repositories.MateriaRepository;
 import com.horarios.horarios.Services.AsignacionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,6 +21,11 @@ public class AsignacionesController {
   @Autowired
   private AsignacionService asignacionesService;
 
+  @Autowired
+  private DocenteRepository docentes;
+
+  @Autowired
+  private MateriaRepository materia;
 
   @GetMapping // Ruta: /api/v1/asignaciones?page=1&size=10
   public Page<Asignaciones> getAllPaginated(
@@ -40,7 +50,14 @@ public class AsignacionesController {
   }
 
   @PostMapping
-  public void saveUpdate(@RequestBody Asignaciones asignacion){
+  public void saveUpdate(@RequestBody AsignacionDTO asignacionDTO){
+      Docentes docentes = this.docentes.findById(asignacionDTO.getDocenteId())
+              .orElseThrow(() -> new IllegalArgumentException("El docente no existe"));
+      Materias materia = this.materia.findById(asignacionDTO.getMateriaId())
+                .orElseThrow(() -> new IllegalArgumentException("La materia no existe"));
+      Asignaciones asignacion = new Asignaciones();
+        asignacion.setDocente(docentes);
+        asignacion.setMateria(materia);
       asignacionesService.saveOrUpdateAsignacion(asignacion);
   }
 

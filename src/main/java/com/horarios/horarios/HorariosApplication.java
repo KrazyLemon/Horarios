@@ -18,8 +18,15 @@ public class HorariosApplication {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**").allowedOrigins("*");
+				registry.addMapping("/**")
+						.allowedOrigins("http://localhost:5173", "") // Specify your frontend origins
+						.allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+						.allowedHeaders("*")
+						.allowCredentials(true); // Enable credentials
 			}
 		};
 	}
+
+
+
 }

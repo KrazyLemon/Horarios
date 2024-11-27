@@ -1,6 +1,9 @@
 package com.horarios.horarios.Controllers;
 
+import com.horarios.horarios.DTOs.MateriaDTO;
 import com.horarios.horarios.Entities.Materias;
+import com.horarios.horarios.Entities.Semestres;
+import com.horarios.horarios.Repositories.SemestreRepository;
 import com.horarios.horarios.Services.MateriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,17 +19,20 @@ public class MateriasController {
     @Autowired
     private MateriaService materiaService;
 
-//    @GetMapping
-//    public List<Materias> getAll(){
-//        return materiaService.getMaterias();
-//    }
+    @Autowired
+    private SemestreRepository semestreRepository;
 
-    @GetMapping // Ruta: /api/v1/materias?page=1&size=10
-    public Page<Materias> getAllPaginated(
-            @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "10") int size) {
-        return materiaService.getAllPaginated(page, size);
+    @GetMapping
+    public List<Materias> getAll(){
+        return materiaService.getMaterias();
     }
+
+//    @GetMapping // Ruta: /api/v1/materias?page=1&size=10
+//    public Page<Materias> getAllPaginated(
+//            @RequestParam(value = "page", defaultValue = "0") int page,
+//            @RequestParam(value = "size", defaultValue = "10") int size) {
+//        return materiaService.getAllPaginated(page, size);
+//    }
 
     @GetMapping("/semestre") // Ruta: api/v1/materias/semestre?semestreId=S0001
     public List<Materias> getBySemestre(@RequestParam("semestreId") String id){
@@ -44,7 +50,16 @@ public class MateriasController {
     }
 
     @PostMapping
-    public void saveUpdate(@RequestBody Materias materia){
+    public void saveUpdate(@RequestBody MateriaDTO materiaDTO){
+        Semestres semestre = semestreRepository.findById(materiaDTO.getSemestreId()).
+                    orElseThrow(() -> new IllegalArgumentException("El semestre no existe"));
+        Materias materia = new Materias();
+        materia.setMateriaId(materiaDTO.getMateriaId());
+        materia.setClave(materiaDTO.getClave());
+        materia.setMateria(materiaDTO.getMateria());
+        materia.setHoras(materiaDTO.getHoras());
+        materia.setSemestre(semestre);
+
         materiaService.saveOrUpdateMateria(materia);
     }
 
