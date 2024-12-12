@@ -9,9 +9,6 @@ public class Grupos{
     @Column(name = "grupo_id", length = 6)
     private String grupoId;
 
-//    @Column(name = "semestre_id")
-//    private long semestreId;
-
     @Column(length = 10)
     private String grupo;
 
@@ -54,4 +51,6 @@ public class Grupos{
     public void setSemestre(Semestres semestre) {
         this.semestre = semestre;
     }
+
+
 }
